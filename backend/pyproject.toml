@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "Amazon Sales Chat Bot"
+version = "0.1.0"
+description = "Amazon Sales Chat Bot"
+authors = ["Navaneethan <naveenkrishnan840@gmail.com>"]
+readme = "README.md"
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.13"
+langchain = "0.3.15"
+langchain_community = "^0.3.6"
+langchain_google_genai = "^2.0.4"
+langgraph = "^0.2.46"
+pytz = "^2024.2"
+pandas = "2.2.3"
+langsmith = "0.1.144"
+fastapi = "0.115.5"
+pydantic = "2.10.2"
+uvicorn = "^0.20.0"
+llama-index = "0.12.14"
+qdrant-client = "1.13.2"
+llama-index-vector-stores-qdrant = "0.4.3Q"
+fastembed = "0.5.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
