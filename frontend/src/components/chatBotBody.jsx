@@ -3,9 +3,8 @@ import {TextareaAutosize} from "@mui/material";
 import "react-chat-elements/dist/main.css"
 import {MessageList } from "react-chat-elements";
 import {Formik, Form, Field} from "formik";
-// import {RequestService} from "./request";
+import {RequestService} from "./request";
 import parse from 'html-react-parser';
-// import "./styles/chatBotBody.css"
 
 export default function ChatBotBody () {
     const [messages, setMessages] = useState([{
@@ -43,7 +42,7 @@ export default function ChatBotBody () {
                 <div className="w-auto h-14 my-1 shadow-md rounded-md p-2 text-wrap text-center font-mono font-extrabold size-4 text-lg text-white">
                     Amazon Sales Report Chat Bot
                 </div>
-                <div className="flex flex-col mx-40 border-white rounded-md overflow-y-auto text-white border-2" style={{borderTopColor: "transparent",borderBottomColor: "transparent", height: "420px"}}>
+                <div className="flex flex-col mx-40 rounded-md overflow-y-auto text-white shadow-lg" style={{height: "420px"}}>
                     <MessageList lockable={true} className="h-80 overflow-y-auto overflow-hidden " dataSource={messages} />
                 </div>
                 <Formik

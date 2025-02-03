@@ -1,4 +1,3 @@
-import './App.css';
 import ChatBotBody from './components/chatBotBody';
 function App() {
   return (
