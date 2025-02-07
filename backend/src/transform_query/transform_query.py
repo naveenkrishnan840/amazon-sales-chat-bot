@@ -5,7 +5,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from src.state_template import GraphState
 
 
-def transform_query(state: GraphState) -> GraphState:
+def transform_query(state: GraphState):
     """
     state: Graph of the state
   """
