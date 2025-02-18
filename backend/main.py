@@ -1,6 +1,7 @@
 from langgraph.graph import StateGraph, START, END
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from langchain_core.runnables import ensure_config
 from fastapi import FastAPI, APIRouter, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,7 +14,7 @@ from dotenv import load_dotenv
 from llama_index.core import Settings
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from llama_index.embeddings.langchain import LangchainEmbedding
-
+from langchain_huggingface import HuggingFaceEmbeddings
 
 from backend.src.state_template import GraphState, MAX_RETRIES, GraphConfig
 from backend.src.retrieve.retrieve import retrieve
@@ -34,15 +35,26 @@ app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], all
 api_router = APIRouter()
 
 load_dotenv()
+# model_name = "sentence-transformers/all-mpnet-base-v2"
+# model_kwargs = {'device': 'cpu'}
+# encode_kwargs = {'normalize_embeddings': False}
+# hf = HuggingFaceEmbeddings(
+#     model_name=model_name,
+#     model_kwargs=model_kwargs,
+#     encode_kwargs=encode_kwargs
+# )
 Settings.embed_model = LangchainEmbedding(GoogleGenerativeAIEmbeddings(model="models/embedding-001"))
+# Settings.embed_model = hf
+# Settings.llm =
+
 self_rag_workflow = StateGraph(GraphState, config_schema=GraphConfig)
-self_rag_workflow.add_node("retrieve", retrieve)
+self_rag_workflow.add_node("retriever", retrieve)
 self_rag_workflow.add_node("grade_documents", grade_documents)
 self_rag_workflow.add_node("transform_query", transform_query)
 self_rag_workflow.add_node("generate", generate)
 self_rag_workflow.add_node("web_search_tool", web_search)
-self_rag_workflow.add_edge(start_key=START, end_key="retrieve")
-self_rag_workflow.add_edge(start_key="retrieve", end_key="grade_documents")
+self_rag_workflow.add_edge(start_key=START, end_key="retriever")
+self_rag_workflow.add_edge(start_key="retriever", end_key="grade_documents")
 self_rag_workflow.add_edge(start_key="web_search_tool", end_key="generate")
 
 
@@ -66,13 +78,13 @@ def grade_generation_generation_question(state: GraphState) -> str:
     question = state["question"]
     generation = state["generation"]
     web_fallback = state["web_fallback"]
-    retries = state["retries"] if state.get("retries") is not None else -1
+    retries = state["retries"] if state.get("retries") else -1
     config = ensure_config()
     max_retries = config.get("configurable", {}).get("max_retries", MAX_RETRIES)
     if not web_fallback:
         return "generate"
 
-    structured_llm_grader = ChatGoogleGenerativeAI(model="gemini-1.5-pro").with_structured_output(
+    structured_llm_grader = ChatGoogleGenerativeAI(model="gemini-2.0-flash").with_structured_output(
         schema=GradeHallucinations)
 
     system = """You are a grader assessing whether an LLM generation is grounded in / supported by a set of retrieved facts. \n 
@@ -94,7 +106,7 @@ def grade_generation_generation_question(state: GraphState) -> str:
                 ("human", "User question: \n\n {question} \n\n LLM generation: {generation}"),
             ]
         )
-        structured_llm_grader = ChatGoogleGenerativeAI(model="gemini-1.5-pro").with_structured_output(GradeAnswer)
+        structured_llm_grader = ChatGoogleGenerativeAI(model="gemini-2.0-flash").with_structured_output(GradeAnswer)
         answer_grader = answer_prompt | structured_llm_grader
         grade = answer_grader.invoke({"question": question, "generation": generation})
         if grade.binary_score == "yes":
@@ -102,18 +114,19 @@ def grade_generation_generation_question(state: GraphState) -> str:
         else:
             return "transform_query" if retries < max_retries else "web_search"
     else:
-        return "generate_answer" if retries < max_retries else "web_search"
+        return "generate" if retries < max_retries else "web_search"
 
 
 self_rag_workflow.add_conditional_edges(source="grade_documents", path=decide_to_generate,
                                         path_map={"generate": "generate", "transform_query": "transform_query"})
-self_rag_workflow.add_edge(start_key="transform_query", end_key="retrieve")
+self_rag_workflow.add_edge(start_key="transform_query", end_key="retriever")
 self_rag_workflow.add_conditional_edges(source="generate", path=grade_generation_generation_question,
                                         path_map={"end": END, "generate": "generate",
-                                                  "transform_query": "transform_query"})
+                                                  "transform_query": "transform_query",
+                                                  "web_search": "web_search_tool"})
 
 
-@api_router.get("/chatBotInitialize")
+@api_router.post("/chatBotInitialize")
 async def rendering_bot(request: Request):
     try:
         memory = MemorySaver()
@@ -123,6 +136,7 @@ async def rendering_bot(request: Request):
         )
         request.app.workflow = self_rag_compiled_graph
         config = {
+            "recursion_limit": 100,
             "configurable": {
                 "thread_id": uuid.uuid4()
             }
@@ -136,7 +150,7 @@ async def rendering_bot(request: Request):
 
 async def streaming_response(query: str, self_rag_compiled_graph, graph_config):
     try:
-        async for event in self_rag_compiled_graph.astream(input={"question": query}, config=graph_config):
+        for event in self_rag_compiled_graph.stream(input={"question": query.strip()}, config=graph_config):
             try:
                 if "generate" in event:
                     yield event["generate"]["generation"]

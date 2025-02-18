@@ -1,8 +1,10 @@
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
+import os
 
-from src.state_template import GraphState
+from backend.src.state_template import GraphState
 
 
 def transform_query(state: GraphState):
@@ -21,7 +23,8 @@ def transform_query(state: GraphState):
         ]
     )
 
-    llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro")
+    # llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro")
+    llm = ChatOpenAI(base_url=os.getenv("OPENROUTER_BASE_URL"), model=os.getenv("MODEL_NAME"))
     question = state["question"]
     documents = state["documents"]
     rewriter_llm = re_write_prompt | llm | StrOutputParser()

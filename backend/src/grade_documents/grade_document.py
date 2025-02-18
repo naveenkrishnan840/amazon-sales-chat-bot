@@ -2,8 +2,8 @@ from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel, Field
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-from src.state_template import GraphState
-from src.structured_output import GradeDocuments
+from backend.src.state_template import GraphState
+from backend.src.structured_output import GradeDocuments
 
 # Prompt
 
@@ -25,7 +25,7 @@ def grade_documents(state: GraphState):
         ]
     )
 
-    llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro")
+    llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash")
     structured_llm_grader = llm.with_structured_output(schema=GradeDocuments)
     retrieval_grader = grade_prompt | structured_llm_grader
 

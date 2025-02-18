@@ -1,8 +1,10 @@
 from langchain import hub
 from langchain_core.output_parsers import StrOutputParser
-from src.state_template import GraphState
+from backend.src.state_template import GraphState
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
+import os
 
 
 def generate(state: GraphState):
@@ -22,6 +24,12 @@ def generate(state: GraphState):
         get information about that.
         3. Keep your response **concise** and **relevant**. Ensure it is **fact-based** and helpful to the user's 
         orders needs.
+        4. Structure the answer using **HTML** tags such as '<div>', '<p>', '<ul>', '<li>', '<strong>', '<table>', 
+        '<section>', '<code>', '<b>', '<hr>', '<ol>' and others as needed for clear, readable output.
+        5. Use **CSS** inline styles or class attributes to style the content appropriately (e.g., font-size, margin, 
+        padding, font-weight, border, overflow, border-style, font-bold, ).
+        6. Keep the HTML clean and semantically correct. Avoid unnecessary tags or styles ot html tags, single quotes.
+        7. If a question requires an explanation or list, format the content using '<ul>' or '<ol>' lists.
         Retrieved Amazon Order Sales Report Information:
         {context}
         User Question:
@@ -29,7 +37,9 @@ def generate(state: GraphState):
         
     """
     prompt = ChatPromptTemplate.from_template(prompt)
-    llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro")
+    # llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro")
+    llm = (ChatOpenAI(base_url=os.getenv("OPENROUTER_BASE_URL"), model=os.getenv("MODEL_NAME")))
+
     rag_chain = prompt | llm | StrOutputParser()
     return {"question": question, "documents": documents,
             "generation": rag_chain.invoke({"question": question, "context": documents}),
