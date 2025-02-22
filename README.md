@@ -4,12 +4,12 @@
   <!-- Backend -->
   <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
   <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" />
-  <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" />
-  <img src="https://img.shields.io/badge/Faiss-4F5B93?style=for-the-badge&logo=faiss&logoColor=white" />
   <img src="https://img.shields.io/badge/Google-4285F4?style=for-the-badge&logo=google&logoColor=white" />
   <img src="https://img.shields.io/badge/LangChain-121212?style=for-the-badge&logo=chainlink&logoColor=white" />
-  <img src="https://img.shields.io/badge/FlashrankRerank-4B9CD3?style=for-the-badge&logo=flash&logoColor=white" />
   <img src="https://img.shields.io/badge/LangGraph-FF6B6B?style=for-the-badge&logo=graph&logoColor=white" />
+  <img src="https://img.shields.io/badge/Qdrant-4F5B93?style=for-the-badge&logo=qdrant&logoColor=white" />
+  <img src="https://img.shields.io/badge/TavilySearch-4F5B93?style=for-the-badge&logo=tavilysearch&logoColor=white" />
+
   
   <!-- Frontend -->
   <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
@@ -49,43 +49,47 @@ The system is built on a modern tech stack with three distinct agent types, each
    - RAG (Retrieval Augmented Generation) pipeline
    - Vector store integration for efficient information storage
    - Automatic content structuring and organization
+   - Web Search for external doucment generation
 
 3. **AI Decision Making**
-   - Multiple LLM integration (Gemnin, deepseek)
-   - Context-aware navigation
-   - Self-review mechanisms
+   - Multiple LLM integration (Gemini, deepseek)
+   - Grade document
+   - Hallucination Grader
+   - Answer Grader
+   - Transform query mechanisms
    - Structured output generation
 
 
 ## Project Structure 
 ```
-ai-hedge-fund/
-├── src/
-│   ├── assistant/                           # Agent definitions and workflow
-│   │   ├── __init__.py                      # init file
-│   │   ├── primary_assistant.py             # primary assistant agent
-│   │   ├── hotel_assistant.py               # hotel_assistant agent
-│   │   ├── flight_assistant.py              # flight assistant agent
-│   │   ├── car_rental_assistant.py          # Car rental agent
-│   │   ├── excursion_assistant.py           # Car rental agent
-|   ├── database                             # To store the vector files
-│   ├── tools/                               # Agent tools
-│   │   ├── __init__.py                      # init file
-|   |   ├── car_rental.py                    # To handle the search, update, cancel things
-|   |   ├── flights.py                       # To handle the search, update, cancel things
-|   |   ├── hotels.py                        # To handle the search, update, cancel things
-|   |   ├── excursions.py                    # To handle the search, update, cancel things
-|   |   ├── lookup_policies_search_tool.py   # To retrieve the policy content
-│   ├── build_graph.py                       # building the graph
-|   ├── question.py
-|   ├── request_validate.py                  # request validation
-|   ├── utilities.py 
-│────── .env # If you want
-│────── data_insertion.py # customer related records insert to mysql db
-│────── pyproject.toml # create virtual env using poetry
-│────── main.py # Main entry point
-├── pyproject.toml
-├── ...
+amazone-sales-chat-bot/
+├── backend/
+|  ├── src/
+|  |   ├── __init__.py
+|  │   ├── generate/                           
+|  │   │   ├── __init__.py                     
+|  │   │   ├── generate.py             
+|  |   |── grade_documents
+|  │   │   ├── __init__.py             
+|  │   │   ├── grade_documents.py  
+|  |   |── retrieve   
+|  │   │   ├── __init__.py         
+|  │   │   ├── retrieve.py         
+|  |   ├── search_tool             
+|  │   │   ├── __init__.py         
+|  |   |   ├── web_search_tool.py  
+|  |   |── transform_query
+|  |   |   |── __init__.py
+|  |   |   |── transform_query.py
+|  │   ├── build_graph.py          
+|  |   ├── esges.py
+|  |   ├── state_template.py       
+|  |   ├── structured_output.py 
+|  │────── .env # If you want
+|  │────── pyproject.toml # create virtual env using poetry
+|  │────── main.py # Main entry point
+|  ├── pyproject.toml
+|  ├── ...
 ```
 
 ## Setup Instructions
@@ -94,8 +98,8 @@ ai-hedge-fund/
 
 1. Clone the repository
    ```bash
-   git clone https://github.com/naveenkrishnan840/customer-support-bot.git
-   cd customer-support-bot
+   git clone https://github.com/naveenkrishnan840/amazon-sales-chat-bot.git
+   cd amazon-sales-chat-bot
    cd backend
    ```
 
@@ -138,11 +142,10 @@ ai-hedge-fund/
    ```bash
     GOOGLE_API_KEY="Your api key"
     TAVILY_API_KEY="Your api key"
-    COHERE_API_KEY="Your api key"
-    MYSQL_HOST="Your host url"
-    MYSQL_USER="Your user"
-    MYSQL_PASSWORD="your password"
-    MYSQL_DB="your database name"
+    OPEN_API_KEY= "Your api key"
+    OPENROUTER_BASE_URL="your url"
+    QDRANT_API_KEY="Your api key"
+    QDRANT_URL="your url"
     LANGCHAIN_TRACING_V2=true
     LANGCHAIN_ENDPOINT="https://api.smith.langchain.com"
     LANGCHAIN_API_KEY="your api key"
