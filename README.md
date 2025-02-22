@@ -34,7 +34,7 @@ In every business or project, whether it’s sales, fulfillment, or customer ser
      
 ### Self Reflective RAG Diagrams
 
-<img src="https://github.com/naveenkrishnan840/amazon-sales-chat-bot/blob/main/graph.png"/>
+<img src="https://github.com/naveenkrishnan840/amazon-sales-chat-bot/blob/main/backend/graph.png"/>
 
 ## Architecture
 
@@ -59,7 +59,20 @@ The system is built on a modern tech stack with three distinct agent types, each
    - Transform query mechanisms
    - Structured output generation
 
-
+## List of question ask to chat bot
+1. What are the amazon orders is shipped status with SKU, can you mention order id, when its shipped?
+2. Can you tell us date is 29-04-2022, what orders happened and status?
+3. What trends can I identify from the "Status" of the orders (e.g., Cancelled, Shipped)?
+4. What factors contributed to the cancellation of certain orders, and how can I reduce cancellations in the future? 
+Sales Channel Insights
+5. How has the sales channel (e.g., Amazon, Merchant) impacted the order status and fulfilment?
+6. What patterns do I notice in terms of orders being shipped through Amazon vs Merchant?
+Fulfilment Process: 
+7. How can I streamline the fulfilment process to avoid delays in shipping or cancellations?
+8. Do the fulfilment methods (Merchant vs Amazon) affect the delivery times or customer satisfaction?
+Courier and Shipping Levels:
+9. Are there any trends in the shipping service levels that contribute to faster or slower deliveries?
+10. How does the choice of courier impact the delivery success rate, especially with different shipping methods like Easy Ship or Expedited?
 ## Project Structure 
 ```
 amazone-sales-chat-bot/
