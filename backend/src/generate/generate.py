@@ -1,10 +1,11 @@
 from langchain import hub
 from langchain_core.output_parsers import StrOutputParser
-from backend.src.state_template import GraphState
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 import os
+
+from src.state_template import GraphState
 
 
 def generate(state: GraphState):

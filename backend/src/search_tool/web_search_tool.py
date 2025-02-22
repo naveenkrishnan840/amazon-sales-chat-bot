@@ -1,7 +1,8 @@
 from langchain_core.tools import tool
 from langchain_core.documents import Document
-from backend.src.state_template import GraphState
 from langchain_community.tools.tavily_search import TavilySearchResults
+
+from src.state_template import GraphState
 
 
 def web_search(state: GraphState):

@@ -2,8 +2,8 @@ from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel, Field
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-from backend.src.state_template import GraphState
-from backend.src.structured_output import GradeDocuments
+from src.state_template import GraphState
+from src.structured_output import GradeDocuments
 
 # Prompt
 

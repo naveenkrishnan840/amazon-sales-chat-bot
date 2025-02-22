@@ -18,7 +18,7 @@ pandas = "2.2.3"
 langsmith = "0.1.144"
 fastapi = "0.115.5"
 pydantic = "2.10.2"
-uvicorn = "^0.20.0"
+uvicorn = "^0.34.0"
 llama-index = "0.12.14"
 qdrant-client = "1.13.2"
 llama-index-vector-stores-qdrant = "0.4.3"
@@ -28,6 +28,7 @@ torch = "2.6.0"
 llama-index-readers-file = "0.4.4"
 llama-index-embeddings-langchain = "0.3.0"
 langchain-huggingface = "0.1.2"
+langgraph-cli = {extras = ["inmem"], version = "^0.1.73"}
 
 [build-system]
 requires = ["poetry-core"]

@@ -4,7 +4,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_openai import ChatOpenAI
 import os
 
-from backend.src.state_template import GraphState
+from src.state_template import GraphState
 
 
 def transform_query(state: GraphState):
@@ -23,10 +23,10 @@ def transform_query(state: GraphState):
         ]
     )
 
-    # llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro")
-    llm = ChatOpenAI(base_url=os.getenv("OPENROUTER_BASE_URL"), model=os.getenv("MODEL_NAME"))
+    llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash")
+    # llm = ChatOpenAI(base_url=os.getenv("OPENROUTER_BASE_URL"), model=os.getenv("MODEL_NAME"))
     question = state["question"]
     documents = state["documents"]
     rewriter_llm = re_write_prompt | llm | StrOutputParser()
 
-    return {"question": rewriter_llm.invoke({"question": question}), "generation": "", "documents": documents}
+    return {"question": rewriter_llm.invoke({"question": question})}
