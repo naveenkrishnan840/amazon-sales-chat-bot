@@ -1,0 +1,7 @@
+{
+    "dependencies": ["."],
+    "graphs": {
+      "Self-Reflective-RAG": "./src/build_graph.py:graph"
+    },
+    "env": "./.env"
+}
