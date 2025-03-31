@@ -19,6 +19,7 @@ export default function ChatBotBody () {
         avatar: "https://t4.ftcdn.net/jpg/02/11/61/95/360_F_211619589_fnRk5LeZohVD1hWInMAQkWzAdyVlS5ox.jpg",
         statusTitle: "Received"
         }]);
+    const [size, setSize] = useState(window.innerWidth);
     const heightRef = useRef(null);
     const [isLoading, setIsLoading] = useState(false);
     const updateHeight = () => {
@@ -26,9 +27,21 @@ export default function ChatBotBody () {
           heightRef.current.scrollTop = heightRef.current.scrollHeight;
         }
     };
+
+    useEffect(() => {
+        const resizeObserver = new ResizeObserver(() => {
+            setSize(window.innerWidth);
+        });
+
+        resizeObserver.observe(document.body);
+
+        return () => resizeObserver.disconnect();
+    }, []);
+
     useEffect(() => {
         updateHeight();
     }, [messages]);
+
     const onSubmitForm = async (inputMessage) => {
         setIsLoading(true)
         const data = {"query": inputMessage["inputmessage"]};
