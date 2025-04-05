@@ -94,6 +94,45 @@ Are there any trends in the shipping service levels that contribute to faster or
 ```text
 How does the choice of courier impact the delivery success rate, especially with different shipping methods like Easy Ship or Expedited?
 ```
+### Product and Category Insights: 
+```text
+Which product categories (Set, Kurta, etc.) are most frequently shipped or cancelled?
+```
+```text
+What product sizes (e.g., Small, XL, 3XL) are more prone to cancellations, and how can I adjust inventory for better sales?
+```
+### Geographical Trends:
+```text
+Are there any geographical patterns in terms of cancellations or delivery issues (e.g., specific cities or states)?
+```
+```text
+How can I improve customer satisfaction in regions with higher cancellation rates (e.g., Maharashtra, Tamil Nadu)?
+```
+### Promotion Effectiveness:
+```text
+How have promotions impacted sales, cancellations, and fulfilment success?
+```
+```text
+Are certain promotion IDs associated with a higher rate of successful orders?
+```
+### Currency and Pricing:
+```text
+What impact does the pricing in INR have on customer satisfaction or cancellation rates?
+```
+```text
+How do varying order amounts influence the likelihood of an order being fulfilled successfully?
+```
+### Order Quantity Analysis:
+```text
+Are there any insights regarding the frequency of orders with a larger quantity (e.g., 3 units vs 1 unit)?
+```
+```text
+Do bulk orders have a higher or lower cancellation rate compared to individual orders?
+```
+### Courier Status Impact:
+```text
+How often are orders marked as "Shipped" or "Delivered" successfully, and what does this tell me about my overall delivery reliability?
+```
 ## Project Structure 
 ```
 amazone-sales-chat-bot/
