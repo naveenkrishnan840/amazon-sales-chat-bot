@@ -10,6 +10,9 @@
   <img src="https://img.shields.io/badge/LangGraph-FF6B6B?style=for-the-badge&logo=graph&logoColor=white" />
   <img src="https://img.shields.io/badge/Qdrant-4F5B93?style=for-the-badge&logo=qdrant&logoColor=white" />
   <img src="https://img.shields.io/badge/TavilySearch-4F5B93?style=for-the-badge&logo=tavilysearch&logoColor=white" />
+  <img src="https://img.shields.io/badge/AWS_EC2-g4dn.xlarge-orange?style=for-the-badge&logo=amazonaws&logoColor=white" alt="AWS EC2 g4dn.xlarge" />
+  <img src="https://img.shields.io/badge/NVIDIA-T4_16GB-76B900?style=for-the-badge&logo=nvidia&logoColor=white" alt="NVIDIA T4 16GB" />
+  <img src="https://img.shields.io/badge/4_vCPUs_&_16_GiB_RAM-blue?style=for-the-badge" alt="4 vCPUs and 16 GiB RAM" />
 
   
   <!-- Frontend -->
